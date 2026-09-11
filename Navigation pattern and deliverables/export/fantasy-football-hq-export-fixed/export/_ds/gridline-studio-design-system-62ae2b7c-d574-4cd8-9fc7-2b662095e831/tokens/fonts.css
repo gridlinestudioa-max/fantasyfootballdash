@@ -1,6 +1,0 @@
-/* Gridline Studio — Webfonts
- * Display: All Around Gothic (brand) → SUBSTITUTED with "Outfit" (geometric, single-story a, heavy weights). Flagged in readme.
- * Body:    Neue Haas Grotesk (brand) ≈ Helvetica → served via native Helvetica stack (see typography.css) per client preference for Helvetica Light. No webfont binary shipped for body.
- * Mono:    "Space Mono" — grid/coordinate captions & labels.
- */
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap');

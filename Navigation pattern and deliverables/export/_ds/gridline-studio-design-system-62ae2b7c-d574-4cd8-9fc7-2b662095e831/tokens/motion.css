@@ -1,9 +1,0 @@
-/* Gridline Studio — Motion. Precise, unfussy: short fades & eases, no bounce. */
-:root {
-  --ease-standard: cubic-bezier(0.22, 0.61, 0.36, 1); /* @kind other */
-  --ease-in:       cubic-bezier(0.4, 0, 1, 1); /* @kind other */
-  --ease-out:      cubic-bezier(0, 0, 0.2, 1); /* @kind other */
-  --dur-fast:   120ms; /* @kind other */
-  --dur-normal: 200ms; /* @kind other */
-  --dur-slow:   360ms; /* @kind other */
-}
