@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/gridline-studio-design-system-62ae2b7c-d574-4cd8-9fc7-2b662095e831/tokens/fonts.css">
+<link rel="stylesheet" href="_ds/gridline-studio-design-system-62ae2b7c-d574-4cd8-9fc7-2b662095e831/tokens/colors.css">
+<link rel="stylesheet" href="_ds/gridline-studio-design-system-62ae2b7c-d574-4cd8-9fc7-2b662095e831/tokens/typography.css">
+<link rel="stylesheet" href="_ds/gridline-studio-design-system-62ae2b7c-d574-4cd8-9fc7-2b662095e831/tokens/spacing.css">
+<link rel="stylesheet" href="_ds/gridline-studio-design-system-62ae2b7c-d574-4cd8-9fc7-2b662095e831/tokens/motion.css">
+<link rel="stylesheet" href="_ds/gridline-studio-design-system-62ae2b7c-d574-4cd8-9fc7-2b662095e831/styles.css">
+<script src="_ds/gridline-studio-design-system-62ae2b7c-d574-4cd8-9fc7-2b662095e831/_ds_bundle.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+<style>
+body{margin:0;background:#ECE5D5;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#08070C}a:hover{color:#565049}
+</style>
+</helmet>
+
+<div style="min-height:100vh;background:#ECE5D5;display:flex;justify-content:center;align-items:flex-start;padding:28px 16px 40px">
+<div style="width:393px;max-width:100%;height:852px;background:#FFFCF3;border:1px solid #08070C;display:flex;flex-direction:column;overflow:hidden;position:relative">
+
+<sc-if value="{{ isDash }}" hint-placeholder-val="{{ true }}">
+<div style="display:flex;flex-direction:column;flex:1;min-height:0">
+  <div style="padding:14px 16px 12px;border-bottom:1px solid #08070C;display:flex;justify-content:space-between;align-items:flex-end;flex:none">
+    <div>
+      <div style="font-family:'Outfit',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:11px;color:#837B6E">{{ leagueLine }}</div>
+      <div style="font-family:'Outfit',sans-serif;font-size:26px;font-weight:600;letter-spacing:-.02em;color:#08070C;margin-top:2px">Dashboard</div>
+      <sc-if value="{{ feedShow }}" hint-placeholder-val="{{ false }}">
+        <div style="font-family:'Space Mono',monospace;text-transform:uppercase;letter-spacing:.14em;font-size:9px;color:#837B6E;margin-top:3px">{{ feedLabel }}</div>
+      </sc-if>
+    </div>
+    <div style="border:1px solid #08070C;padding:4px 7px;font-family:'Outfit',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:11px;color:#08070C;font-variant-numeric:tabular-nums">WK {{ weekPad }}</div>
+  </div>
+
+  <div style="flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch">
+    <div style="display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid #08070C">
+      <div onClick="{{ openLeader }}" style="background:#08070C;color:#FFFCF3;padding:12px 14px 13px;cursor:pointer">
+        <div style="font-family:'Outfit',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:10.5px;color:rgba(255,252,243,.78)">First</div>
+        <div style="font-family:'Outfit',sans-serif;font-size:19px;font-weight:600;margin-top:7px">{{ leaderName }}</div>
+        <div style="font-family:'Outfit',sans-serif;font-variant-numeric:tabular-nums;font-size:33px;font-weight:700;letter-spacing:-.03em;line-height:1;margin-top:2px">{{ leaderTotal }}</div>
+        <div style="font-family:'Outfit',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:10.5px;color:rgba(255,252,243,.78);margin-top:7px">{{ leaderMargin }}</div>
+      </div>
+      <div onClick="{{ openLaggard }}" style="padding:12px 14px 13px;border-left:1px solid #08070C;cursor:pointer">
+        <div style="font-family:'Outfit',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:10.5px;color:#837B6E">Last</div>
+        <div style="font-family:'Outfit',sans-serif;font-size:19px;font-weight:600;margin-top:7px;color:#08070C">{{ laggardName }}</div>
+        <div style="font-family:'Outfit',sans-serif;font-variant-numeric:tabular-nums;font-size:33px;font-weight:700;letter-spacing:-.03em;line-height:1;margin-top:2px;color:#08070C">{{ laggardTotal }}</div>
+        <div style="font-family:'Outfit',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:10.5px;color:#837B6E;margin-top:7px">{{ laggardMargin }}</div>
+      </div>
+    </div>
+
+    <div style="display:flex;border-bottom:1px solid #08070C;background:#F7F2E6">
+      <div style="flex:1;padding:9px 14px">
+        <div style="font-family:'Outfit',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:10.5px;color:#837B6E">Wk {{ weekPad }} high</div>
+        <div style="display:flex;align-items:baseline;gap:6px;margin-top:3px">
+          <span style="font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;color:#08070C">{{ highName }}</span>
+          <span style="font-family:'Outfit',sans-serif;font-variant-numeric:tabular-nums;font-size:14px;font-weight:700;color:#08070C;margin-left:auto">{{ highScore }}</span>
+        </div>
+      </div>
+      <div style="width:1px;background:rgba(8,7,12,.16)"></div>
+      <div style="flex:1;padding:9px 14px">
+        <div style="font-family:'Outfit',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:10.5px;color:#837B6E">Wk {{ weekPad }} low</div>
+        <div style="display:flex;align-items:baseline;gap:6px;margin-top:3px">
+          <span style="font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;color:#08070C">{{ lowName }}</span>
+          <span style="font-family:'Outfit',sans-serif;font-variant-numeric:tabular-nums;font-size:14px;font-weight:700;color:#08070C;margin-left:auto">{{ lowScore }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="padding:13px 16px 4px;display:flex;justify-content:space-between;align-items:baseline">
+      <div style="font-family:'Outfit',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:11px;color:#08070C">Standings</div>
+      <div onClick="{{ toggleDelta }}" style="font-family:'Outfit',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:10.5px;color:#565049;cursor:pointer;border-bottom:1px solid rgba(8,7,12,.32)">{{ deltaLabel }}</div>
+    </div>
+    <div style="padding:0 16px 14px">
+      <div style="display:grid;grid-template-columns:34px 1fr 66px 58px;column-gap:6px;align-items:center;border-bottom:2px solid #08070C;padding-bottom:5px;font-family:'Outfit',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.14em">
+        <div style="font-size:10px;color:#837B6E">#</div><div style="font-size:10px;color:#837B6E">Owner</div>
+        <div style="font-size:10px;color:#837B6E;text-align:right">Total</div><div style="font-size:10px;color:#837B6E;text-align:right">&#916;</div>
+      </div>
+      <sc-for list="{{ standings }}" as="row" hint-placeholder-count="10">
+        <div onClick="{{ row.open }}" style="display:grid;grid-template-columns:34px 1fr 66px 58px;column-gap:6px;align-items:center;padding:7px 4px;cursor:pointer;margin:0 -4px;border-bottom:{{ row.rule }};background:{{ row.bg }};box-shadow:{{ row.shadow }}">
+          <div style="font-family:'Outfit',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:11px;color:{{ row.dim }}">{{ row.rankStr }}</div>
+          <div style="display:flex;align-items:center;gap:7px;min-width:0">
+            <span style="width:7px;height:7px;border-radius:50%;flex:none;background:{{ row.dot }}"></span>
+            <span style="font-family:'Outfit',sans-serif;font-size:14px;font-weight:{{ row.nameWeight }};color:{{ row.fg }};overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ row.name }}</span>
+          </div>
+          <div style="font-family:'Outfit',sans-serif;font-variant-numeric:tabular-nums;font-size:14px;font-weight:{{ row.totalWeight }};text-align:right;color:{{ row.fg }}">{{ row.total }}</div>
+          <div style="font-family:'Outfit',sans-serif;font-variant-numeric:tabular-nums;font-size:11px;text-align:right;color:{{ row.dim }}">{{ row.delta }}</div>
+        </div>
+      </sc-for>
+    </div>
+
+    <div style="border-top:1px solid #08070C;padding:13px 16px 16px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline">
+        <div style="font-family:'Outfit',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:11px;color:#08070C">{{ chartTitle }}</div>
+        <div onClick="{{ toggleChart }}" style="font-family:'Outfit',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:10.5px;color:#565049;cursor:pointer;border-bottom:1px solid rgba(8,7,12,.32)">{{ chartToggleLabel }}</div>
+      </div>
+      <div style="font-family:'Outfit',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:10.5px;color:#837B6E;margin-top:5px">{{ isolateHint }}</div>
+      <div style="overflow-x:auto;margin-top:10px;border:1px solid rgba(8,7,12,.16);background:#F7F2E6">
+        {{ dashChart }}
+      </div>
+    </div>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isStats }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;flex:1;min-height:0">
+  <div style="padding:14px 16px 12px;border-bottom:1px solid #08070C;display:flex;justify-content:space-between;align-items:flex-end;flex:none">
+    <div>
+      <div style="font-family:'Outfit',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:11px;color:#837B6E">Through week {{ statsWeekPad }}</div>
+      <div style="font-family:'Outfit',sans-serif;font-size:26px;font-weight:600;letter-spacing:-.02em;color:#08070C;margin-top:2px">Stats</div>
+    </div>
+    <div style="font-family:'Outfit',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:11px;color:#08070C;border:1px solid #08070C;padding:3px 6px">{{ teamCount }} teams</div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 2px 1fr;border-bottom:1px solid #08070C;flex:none">
+    <div onClick="{{ goTeamSub }}" style="padding:12px 0;text-align:center;cursor:pointer;user-select:none;background:{{ teamSegBg }};color:{{ teamSegFg }};font-family:'Outfit',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:11.5px">Team stats</div>
+    <div style="background:#08070C"></div>
+    <div onClick="{{ goLeagueSub }}" style="padding:12px 0;text-align:center;cursor:pointer;user-select:none;background:{{ leagueSegBg }};color:{{ leagueSegFg }};font-family:'Outfit',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:11.5px">League stats</div>
+  </div>
+
+  <div style="flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch">
+
+    <sc-if value="{{ showTeamSub }}" hint-placeholder-val="{{ true }}">
+    <div>
+      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:#08070C;border-bottom:1px solid #08070C">
+        <sc-for list="{{ ownerChips }}" as="o" hint-placeholder-count="10">
+          <div onClick="{{ o.pick }}" style="padding:10px 2px;cursor:pointer;user-select:none;white-space:nowrap;background:{{ o.bg }};color:{{ o.fg }};font-family:'Outfit',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.1em;font-size:11px;display:flex;align-items:center;justify-content:center;gap:5px">
+            <span style="width:6px;height:6px;border-radius:50%;flex:none;background:{{ o.dot }}"></span>{{ o.name }}</div>
+        </sc-for>
+      </div>
+
+      <sc-if value="{{ loading }}" hint-placeholder-val="{{ false }}">
+      <div>
+        <div style="padding:16px;border-bottom:1px solid #08070C">
+          <div style="width:74px;height:11px;background:#D8D2C6"></div>
+          <div style="width:184px;height:56px;background:#D8D2C6;margin-top:12px"></div>
+          <div style="width:220px;height:11px;background:#D8D2C6;margin-top:12px"></div>
+        </div>
+        <div style="padding:14px 16px 16px;border-bottom:1px solid #08070C">
+          <div style="width:150px;height:11px;background:#D8D2C6"></div>
+          <sc-for list="{{ skeletonBars }}" as="b" hint-placeholder-count="7">
+            <div style="display:grid;grid-template-columns:34px 1fr 52px;gap:8px;align-items:center;margin-top:10px">
+              <div style="height:10px;background:#D8D2C6"></div>
+              <div style="height:14px;background:#D8D2C6;width:{{ b.pct }}"></div>
+              <div style="height:10px;background:#D8D2C6"></div>
+            </div>
+          </sc-for>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1px 1fr;border-bottom:1px solid #08070C">
+          <div style="padding:14px">
+            <div style="width:88px;height:10px;background:#D8D2C6"></div>
+            <div style="width:76px;height:30px;background:#D8D2C6;margin-top:10px"></div>
+          </div>
+          <div style="background:#08070C"></div>
+          <div style="padding:14px">
+            <div style="width:80px;height:10px;background:#D8D2C6"></div>
+            <div style="width:76px;height:30px;background:#D8D2C6;margin-top:10px"></div>
+          </div>
+        </div>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ ready }}" hint-placeholder-val="{{ true }}">
+      <div>
+        <div style="background:{{ selHeaderBg }};color:#FFFCF3;padding:16px 16px 18px;border-bottom:1px solid #08070C">
+          <div style="font-family:'Outfit',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:10.5px;color:rgba(255,252,243,.78);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ selEyebrow }}</div>
+          <div style="font-family:'Outfit',sans-serif;font-variant-numeric:tabular-nums;font-size:60px;font-weight:700;letter-spacing:-.04em;line-height:.92;margin-top:8px">{{ selSeasonTotal }}</div>
+          <div style="font-family:'Outfit',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:11px;color:rgba(255,252,243,.86);margin-top:10px;line-height:1.5">Season points</div>
+          <div style="font-family:'Outfit',sans-serif;font-variant-numeric:tabular-nums;font-size:11px;letter-spacing:.06em;color:rgba(255,252,243,.62);margin-top:5px">{{ selRankLine }}</div>
+        </div>
+
+        <div style="padding:13px 16px 15px;border-bottom:1px solid #08070C;background:#FFFCF3">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px">
+            <div style="font-family:'Outfit',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:10.5px;color:#837B6E">Top performer &#8212; season</div>
+            <div style="font-family:'Outfit',sans-serif;font-variant-numeric:tabular-nums;font-size:22px;font-weight:700;letter-spacing:-.03em;color:#08070C">{{ topSeasonPts }}</div>
+          </div>
+          <div style="font-family:'Outfit',sans-serif;font-size:24px;font-weight:600;letter-spacing:-.02em;color:#08070C;margin-top:6px;line-height:1.15">{{ topSeasonName }}</div>
+          <div style="font-family:'Outfit',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:10px;color:#565049;margin-top:5px">{{ topSeasonSub }}</div>
+        </div>
+
+        <div style="padding:13px 16px 15px;border-bottom:1px solid #08070C;background:#FFFCF3">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px">
+            <div style="font-family:'Outfit',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:10.5px;color:#837B6E">Top performer &#8212; {{ topWeekLabel }}</div>
+            <div style="font-family:'Outfit',sans-serif;font-variant-numeric:tabular-nums;font-size:22px;font-weight:700;letter-spacing:-.03em;color:#08070C">{{ topWeekPts }}</div>
+          </div>
+          <div style="font-family:'Outfit',sans-serif;font-size:24px;font-weight:600;letter-spacing:-.02em;color:#08070C;margin-top:6px;line-height:1.15">{{ topWeekName }}</div>
+          <div style="font-family:'Outfit',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:10px;color:#565049;margin-top:5px">{{ topWeekSub }}</div>
+        </div>
+
+        <div style="padding:14px 16px 16px;border-bottom:1px solid #08070C">
+          <div style="display:flex;justify-content:space-between;align-items:baseline">
+            <div style="font-family:'Outfit',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:11px;color:#08070C">Scoring by position</div>
+            <div style="font-family:'Outfit',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:10.5px;color:#837B6E">Season pts</div>
+          </div>
+          <div style="margin-top:8px">
+            <sc-for list="{{ posRows }}" as="p" hint-placeholder-count="7">
+              <div style="display:grid;grid-template-columns:34px 1fr 52px;gap:8px;align-items:center;padding:5px 0">
+                <div style="font-family:'Outfit',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:10.5px;color:#08070C">{{ p.label }}</div>
+                <div style="height:14px;background:#FFFCF3;border:1px solid #08070C">
+                  <div style="height:100%;background:#08070C;width:{{ p.pct }}"></div>
+                </div>
+                <div style="font-family:'Outfit',sans-serif;font-variant-numeric:tabular-nums;font-size:13px;font-weight:600;text-align:right;color:#08070C">{{ p.val }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="padding:13px 16px 15px;border-bottom:1px solid #08070C;background:#FFFCF3">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px">
+            <div style="font-family:'Outfit',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:10.5px;color:#837B6E">Bench points left on the table</div>
+            <div style="font-family:'Outfit',sans-serif;font-variant-numeric:tabular-nums;font-size:26px;font-weight:700;letter-spacing:-.03em;color:#08070C">{{ benchTotal }}</div>
+          </div>
+          <div style="font-family:'Outfit',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:10px;color:#565049;margin-top:7px;line-height:1.5">{{ benchTopLine }}</div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1px 1fr;border-bottom:1px solid #08070C">
+          <div style="padding:13px 14px 16px">
+            <div style="font-family:'Outfit',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:10.5px;color:#837B6E">Last 3 weeks</div>
+            <div style="display:flex;align-items:baseline;gap:7px;margin-top:6px">
+              <span style="font-family:'Outfit',sans-serif;font-variant-numeric:tabular-nums;font-size:26px;font-weight:700;letter-spacing:-.03em;color:#08070C">{{ last3 }}</span>
+              <span style="font-family:'Outfit',sans-serif;font-size:14px;color:#08070C">{{ trendGlyph }}</span>
+            </div>
+            <div style="font-family:'Outfit',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:10px;color:#565049;margin-top:6px;line-height:1.5">{{ trendNote }}</div>
+          </div>
+          <div style="background:#08070C"></div>
+          <div style="padding:13px 14px 16px">
+            <div style="font-family:'Outfit',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:10.5px;color:#837B6E">Season avg</div>
+            <div style="font-family:'Outfit',sans-serif;font-variant-numeric:tabular-nums;font-size:26px;font-weight:700;letter-spacing:-.03em;color:#08070C;margin-top:6px">{{ seasonAvgSel }}</div>
+            <div style="font-family:'Outfit',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:10px;color:#565049;margin-top:6px;line-height:1.5">{{ seasonAvgNote }}</div>
+          </div>
+        </div>
+      </div>
+      </sc-if>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ showLeagueSub }}" hint-placeholder-val="{{ false }}">
+    <div>
+
+      <sc-if value="{{ loading }}" hint-placeholder-val="{{ false }}">
+      <div>
+        <div style="padding:16px;border-bottom:1px solid #08070C">
+          <div style="width:200px;height:52px;background:#D8D2C6"></div>
+          <div style="width:230px;height:11px;background:#D8D2C6;margin-top:12px"></div>
+        </div>
+        <div style="padding:14px 16px 16px;border-bottom:1px solid #08070C">
+          <div style="width:170px;height:11px;background:#D8D2C6"></div>
+          <div style="height:132px;background:#D8D2C6;margin-top:10px"></div>
+        </div>
+        <div style="padding:14px 16px 16px">
+          <div style="width:130px;height:11px;background:#D8D2C6"></div>
+          <sc-for list="{{ skeletonRows }}" as="r" hint-placeholder-count="6">
+            <div style="display:grid;grid-template-columns:52px 1fr 62px;gap:8px;align-items:center;padding:11px 0;border-bottom:1px solid rgba(8,7,12,.16)">
+              <div style="height:10px;background:#D8D2C6"></div>
+              <div style="height:10px;background:#D8D2C6;width:{{ r.pct }}"></div>
+              <div style="height:10px;background:#D8D2C6"></div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ ready }}" hint-placeholder-val="{{ true }}">
+      <div>
+        <div style="background:#08070C;color:#FFFCF3;padding:16px 16px 18px;border-bottom:1px solid #08070C">
+          <div style="font-family:'Outfit',sans-serif;font-variant-numeric:tabular-nums;font-size:56px;font-weight:700;letter-spacing:-.04em;line-height:.92">{{ lgTotal }}</div>
+          <div style="font-family:'Outfit',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:11px;color:rgba(255,252,243,.86);margin-top:10px;max-width:260px;line-height:1.5">Total points scored &#8212; league wide</div>
+          <div style="font-family:'Outfit',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:10.5px;color:rgba(255,252,243,.6);margin-top:6px">{{ lgPerTeam }} avg per team</div>
+        </div>
+
+        <div style="padding:13px 16px 15px;border-bottom:1px solid #08070C;background:#F7F2E6">
+          <div style="font-family:'Outfit',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:10.5px;color:#837B6E">Bench points wasted &#8212; league wide</div>
+          <div style="display:flex;align-items:baseline;justify-content:space-between;margin-top:5px">
+            <div style="font-family:'Outfit',sans-serif;font-variant-numeric:tabular-nums;font-size:26px;font-weight:700;letter-spacing:-.03em;color:#08070C">{{ lgBench }}</div>
+            <div style="font-family:'Outfit',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:10px;color:#565049">{{ lgBenchPerTeam }} per team</div>
+          </div>
+        </div>
+
+        <div style="padding:14px 16px 16px;border-bottom:1px solid #08070C">
+          <div style="display:flex;justify-content:space-between;align-items:baseline">
+            <div style="font-family:'Outfit',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:11px;color:#08070C">League average by week</div>
+            <div style="font-family:'Outfit',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:10.5px;color:#837B6E">{{ winnerRange }}</div>
+          </div>
+          <sc-if value="{{ hasTrend }}" hint-placeholder-val="{{ true }}">
+          <div style="margin-top:2px">{{ leagueChart }}</div>
+          </sc-if>
+          <sc-if value="{{ noTrend }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-top:10px;border:1px solid rgba(8,7,12,.28);padding:26px 0;text-align:center;font-family:'Outfit',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:10.5px;color:#837B6E">Not enough data yet</div>
+          </sc-if>
+        </div>
+
+        <div style="padding:13px 16px 4px;display:flex;justify-content:space-between;align-items:baseline">
+          <div style="font-family:'Outfit',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:11px;color:#08070C">Weekly winners</div>
+          <div style="font-family:'Outfit',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:10.5px;color:#837B6E">{{ winnerRange }}</div>
+        </div>
+        <div style="padding:0 16px 16px">
+          <div style="display:grid;grid-template-columns:52px 1fr 62px;align-items:center;border-bottom:2px solid #08070C;padding-bottom:5px;font-family:'Outfit',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.14em">
+            <div style="font-size:10px;color:#837B6E">Week</div>
+            <div style="font-size:10px;color:#837B6E">Owner</div>
+            <div style="font-size:10px;color:#837B6E;text-align:right">Points</div>
+          </div>
+          <sc-for list="{{ weeklyWinners }}" as="w" hint-placeholder-count="6">
+            <div onClick="{{ w.open }}" style="display:grid;grid-template-columns:52px 1fr 62px;align-items:center;padding:9px 0;border-bottom:1px solid rgba(8,7,12,.16);cursor:pointer">
+              <div style="font-family:'Outfit',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:10px;color:#837B6E">WK {{ w.wk }}</div>
+              <div style="display:flex;align-items:center;gap:7px;min-width:0;padding-right:8px">
+                <span style="width:7px;height:7px;border-radius:50%;flex:none;background:{{ w.dot }}"></span>
+                <span style="font-family:'Outfit',sans-serif;font-size:14px;font-weight:500;color:#08070C;line-height:1.35">{{ w.name }}</span>
+              </div>
+              <div style="font-family:'Outfit',sans-serif;font-variant-numeric:tabular-nums;font-size:14px;font-weight:600;text-align:right;color:#08070C">{{ w.score }}</div>
+            </div>
+          </sc-for>
+        </div>
+
+        <div style="border-top:1px solid #08070C;padding:13px 16px 4px;display:flex;justify-content:space-between;align-items:baseline">
+          <div style="font-family:'Outfit',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:11px;color:#08070C">High / low weeks</div>
+          <div style="font-family:'Outfit',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:10.5px;color:#837B6E">By weeks won</div>
+        </div>
+        <div style="padding:0 16px 16px">
+          <div style="display:grid;grid-template-columns:1fr 60px 60px;align-items:end;border-bottom:2px solid #08070C;padding-bottom:5px;font-family:'Outfit',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.14em">
+            <div style="font-size:10px;color:#837B6E">Owner</div>
+            <div style="font-size:10px;color:#837B6E;text-align:right;line-height:1.3">Weeks won</div>
+            <div style="font-size:10px;color:#837B6E;text-align:right;line-height:1.3">Weeks low</div>
+          </div>
+          <sc-for list="{{ leaderboard }}" as="b" hint-placeholder-count="10">
+            <div onClick="{{ b.open }}" style="display:grid;grid-template-columns:1fr 60px 60px;align-items:center;padding:8px 4px;margin:0 -4px;cursor:pointer;border-bottom:1px solid rgba(8,7,12,.16);background:{{ b.bg }}">
+              <div style="display:flex;align-items:center;gap:7px;min-width:0">
+                <span style="width:7px;height:7px;border-radius:50%;flex:none;background:{{ b.dot }}"></span>
+                <span style="font-family:'Outfit',sans-serif;font-size:14px;font-weight:{{ b.weight }};color:{{ b.fg }};overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ b.name }}</span>
+              </div>
+              <div style="font-family:'Outfit',sans-serif;font-variant-numeric:tabular-nums;font-size:14px;font-weight:600;text-align:right;color:{{ b.fg }}">{{ b.wins }}</div>
+              <div style="font-family:'Outfit',sans-serif;font-variant-numeric:tabular-nums;font-size:14px;text-align:right;color:{{ b.dim }}">{{ b.lows }}</div>
+            </div>
+          </sc-for>
+        </div>
+
+        <div style="border-top:1px solid #08070C;padding:13px 16px 4px;font-family:'Outfit',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:11px;color:#08070C">Season records</div>
+        <div style="display:grid;gap:1px;background:#08070C;margin:8px 16px 18px">
+          <sc-for list="{{ records }}" as="r" hint-placeholder-count="4">
+            <div style="background:#FFFCF3;padding:11px 13px 13px">
+              <div style="font-family:'Outfit',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:10px;color:#837B6E">{{ r.label }}</div>
+              <div style="font-family:'Outfit',sans-serif;font-variant-numeric:tabular-nums;font-size:24px;font-weight:700;letter-spacing:-.03em;color:#08070C;margin-top:3px">{{ r.stat }}</div>
+              <div style="font-family:'Outfit',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:10px;color:#565049;margin-top:3px;line-height:1.5">{{ r.detail }}</div>
+            </div>
+          </sc-for>
+        </div>
+
+        <div style="border-top:1px solid #08070C;padding:14px 16px 18px">
+          <div style="display:flex;justify-content:space-between;align-items:baseline">
+            <div style="font-family:'Outfit',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:11px;color:#08070C">Position groups &#8212; league wide</div>
+            <div style="font-family:'Outfit',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:10.5px;color:#837B6E">Season pts</div>
+          </div>
+          <div style="margin-top:8px">
+            <sc-for list="{{ lgPosRows }}" as="p" hint-placeholder-count="7">
+              <div style="display:grid;grid-template-columns:34px 1fr 62px;gap:8px;align-items:center;padding:5px 0">
+                <div style="font-family:'Outfit',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:10.5px;color:#08070C">{{ p.label }}</div>
+                <div style="height:14px;background:#FFFCF3;border:1px solid #08070C">
+                  <div style="height:100%;background:#08070C;width:{{ p.pct }}"></div>
+                </div>
+                <div style="font-family:'Outfit',sans-serif;font-variant-numeric:tabular-nums;font-size:13px;font-weight:600;text-align:right;color:#08070C">{{ p.val }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+      </sc-if>
+    </div>
+    </sc-if>
+
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isDetail }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;flex:1;min-height:0">
+  <div style="padding:12px 16px 12px;border-bottom:1px solid #08070C;flex:none">
+    <div onClick="{{ closeDetail }}" style="font-family:'Outfit',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:10.5px;color:#565049;cursor:pointer">&#8592; {{ backLabel }}</div>
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-top:8px">
+      <div>
+        <div style="display:flex;align-items:center;gap:9px">
+          <span style="width:11px;height:11px;border-radius:50%;flex:none;background:{{ detailDot }}"></span>
+          <span style="font-family:'Outfit',sans-serif;font-size:26px;font-weight:600;letter-spacing:-.02em;color:#08070C;line-height:1.1">{{ detailName }}</span>
+        </div>
+        <div style="font-family:'Outfit',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:10.5px;color:#837B6E;margin-top:4px">{{ detailSub }}</div>
+      </div>
+      <div style="font-family:'Outfit',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:11px;color:#08070C;border:1px solid #08070C;padding:3px 6px">{{ detailRank }}</div>
+    </div>
+  </div>
+
+  <div style="flex:1;overflow-y:auto">
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;border-bottom:1px solid #08070C;background:#F7F2E6">
+      <div style="padding:10px 12px 12px">
+        <div style="font-family:'Outfit',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:10px;color:#837B6E">Total</div>
+        <div style="font-family:'Outfit',sans-serif;font-variant-numeric:tabular-nums;font-size:20px;font-weight:700;letter-spacing:-.02em;color:#08070C;margin-top:3px">{{ detailTotal }}</div>
+      </div>
+      <div style="padding:10px 12px 12px;border-left:1px solid rgba(8,7,12,.16)">
+        <div style="font-family:'Outfit',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:10px;color:#837B6E">Avg</div>
+        <div style="font-family:'Outfit',sans-serif;font-variant-numeric:tabular-nums;font-size:20px;font-weight:700;letter-spacing:-.02em;color:#08070C;margin-top:3px">{{ detailAvg }}</div>
+      </div>
+      <div style="padding:10px 12px 12px;border-left:1px solid rgba(8,7,12,.16)">
+        <div style="font-family:'Outfit',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:10px;color:#837B6E">Trend</div>
+        <div style="font-family:'Outfit',sans-serif;font-size:20px;font-weight:600;color:#08070C;margin-top:3px">{{ detailTrend }}</div>
+      </div>
+    </div>
+
+    <div style="padding:13px 16px 4px;font-family:'Outfit',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:11px;color:#08070C">Week by week</div>
+    <div style="padding:0 16px 14px">
+      <div style="display:grid;grid-template-columns:42px 1fr 54px 44px;align-items:center;border-bottom:2px solid #08070C;padding-bottom:5px;font-family:'Outfit',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.14em">
+        <div style="font-size:10px;color:#837B6E">Week</div><div style="font-size:10px;color:#837B6E">Result</div>
+        <div style="font-size:10px;color:#837B6E;text-align:right">Pts</div><div style="font-size:10px;color:#837B6E;text-align:right">Rk</div>
+      </div>
+      <sc-for list="{{ detailWeeks }}" as="w" hint-placeholder-count="6">
+        <div style="display:grid;grid-template-columns:42px 1fr 54px 44px;align-items:center;padding:8px 0;border-bottom:1px solid rgba(8,7,12,.16)">
+          <div style="font-family:'Outfit',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:10px;color:#837B6E">{{ w.wk }}</div>
+          <div style="font-family:'Outfit',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:10px;color:{{ w.noteColor }}">{{ w.note }}</div>
+          <div style="font-family:'Outfit',sans-serif;font-variant-numeric:tabular-nums;font-size:14px;font-weight:600;text-align:right;color:#08070C">{{ w.pts }}</div>
+          <div style="font-family:'Outfit',sans-serif;font-variant-numeric:tabular-nums;font-size:12px;text-align:right;color:#565049">{{ w.rank }}</div>
+        </div>
+      </sc-for>
+    </div>
+
+    <div style="border-top:1px solid #08070C;padding:13px 16px 6px;display:flex;justify-content:space-between;align-items:baseline">
+      <div style="font-family:'Outfit',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:11px;color:#08070C">Roster &#8212; points by week</div>
+      <div style="font-family:'Outfit',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:10px;color:#837B6E">{{ rosterCount }} active</div>
+    </div>
+    <div style="padding-bottom:6px">
+      <div style="overflow-x:auto;-webkit-overflow-scrolling:touch">
+        <div style="min-width:{{ rosterMinW }}">
+          <div style="display:grid;grid-template-columns:{{ rosterCols }};align-items:end;border-bottom:2px solid #08070C;padding-bottom:5px">
+            <div style="position:sticky;left:0;background:#FFFCF3;padding-left:16px;font-family:'Outfit',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:10px;color:#837B6E">Player</div>
+            <sc-for list="{{ weekCols }}" as="w" hint-placeholder-count="6">
+              <div style="text-align:right;font-family:'Outfit',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.1em;font-size:10px;color:#837B6E;padding-right:4px">{{ w.t }}</div>
+            </sc-for>
+            <div style="text-align:right;padding-right:16px;font-family:'Outfit',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:10px;color:#837B6E">Tot</div>
+          </div>
+          <sc-for list="{{ rosterRows }}" as="p" hint-placeholder-count="15">
+            <div style="display:grid;grid-template-columns:{{ rosterCols }};align-items:center;border-bottom:1px solid rgba(8,7,12,.16);padding:7px 0">
+              <div style="position:sticky;left:0;background:#FFFCF3;padding-left:16px;padding-right:8px">
+                <div style="font-family:'Outfit',sans-serif;font-size:13px;font-weight:500;color:{{ p.nameColor }};line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ p.name }}</div>
+                <div style="font-family:'Outfit',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.1em;font-size:9px;color:#837B6E;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ p.meta }}</div>
+              </div>
+              <sc-for list="{{ p.cells }}" as="c" hint-placeholder-count="6">
+                <div style="text-align:right;padding-right:4px;font-family:'Outfit',sans-serif;font-variant-numeric:tabular-nums;font-size:12.5px;color:{{ c.color }};font-weight:{{ c.weight }}">{{ c.v }}</div>
+              </sc-for>
+              <div style="text-align:right;padding-right:16px;font-family:'Outfit',sans-serif;font-variant-numeric:tabular-nums;font-size:13px;font-weight:700;color:#08070C">{{ p.total }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      <div style="padding:9px 16px 18px;font-family:'Outfit',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.12em;font-size:9.5px;color:#837B6E;line-height:1.6">{{ rosterNote }}</div>
+    </div>
+
+  </div>
+</div>
+</sc-if>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;border-top:1px solid #08070C;flex:none">
+  <div onClick="{{ goDash }}" style="padding:13px 0;text-align:center;cursor:pointer;background:{{ dashTabBg }};color:{{ dashTabFg }};font-family:'Outfit',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:11.5px">Dashboard</div>
+  <div onClick="{{ goStats }}" style="padding:13px 0;text-align:center;cursor:pointer;border-left:1px solid #08070C;background:{{ statsTabBg }};color:{{ statsTabFg }};font-family:'Outfit',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:11.5px">Stats</div>
+</div>
+
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:460,&quot;height&quot;:920},&quot;leagueName&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Grant's Rad League&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;leagueId&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;749557&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;statsView&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Live&quot;,&quot;Loading skeleton&quot;],&quot;default&quot;:&quot;Live&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Stats tab&quot;}}">
+/* =============================================================================
+   GOOGLE SHEET FEED
+   Each tab is published on its own: File > Share > Publish to web > [tab] > CSV.
+   Paste each tab's CSV URL below. Leave a value as '' until you have it — the
+   sections it drives render as em dashes instead of breaking.
+   Nothing else needs to change to update the site: edit the sheet, reload.
+============================================================================= */
+const CSV_URLS = {
+  WEEKLY_SCORES:    'https://docs.google.com/spreadsheets/d/e/2PACX-1vRJaOaJfFAXKcMZQ80YdJnFgrXYkzoWEjQKv0yHyV__D9sjlbZ9FiaCoGbauKTOgWfvxLD9255uZtMo/pub?gid=1358761022&single=true&output=csv',
+  SEASON_STANDINGS: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRJaOaJfFAXKcMZQ80YdJnFgrXYkzoWEjQKv0yHyV__D9sjlbZ9FiaCoGbauKTOgWfvxLD9255uZtMo/pub?gid=654062001&single=true&output=csv',
+  TEAM_STATS:       'https://docs.google.com/spreadsheets/d/e/2PACX-1vRJaOaJfFAXKcMZQ80YdJnFgrXYkzoWEjQKv0yHyV__D9sjlbZ9FiaCoGbauKTOgWfvxLD9255uZtMo/pub?gid=738689986&single=true&output=csv',
+  LEAGUE_STATS:     'https://docs.google.com/spreadsheets/d/e/2PACX-1vRJaOaJfFAXKcMZQ80YdJnFgrXYkzoWEjQKv0yHyV__D9sjlbZ9FiaCoGbauKTOgWfvxLD9255uZtMo/pub?gid=749026172&single=true&output=csv',
+  DASHBOARD_STATS:  'https://docs.google.com/spreadsheets/d/e/2PACX-1vRJaOaJfFAXKcMZQ80YdJnFgrXYkzoWEjQKv0yHyV__D9sjlbZ9FiaCoGbauKTOgWfvxLD9255uZtMo/pub?gid=667264377&single=true&output=csv',
+  PLAYER_TOTALS:    'https://docs.google.com/spreadsheets/d/e/2PACX-1vRJaOaJfFAXKcMZQ80YdJnFgrXYkzoWEjQKv0yHyV__D9sjlbZ9FiaCoGbauKTOgWfvxLD9255uZtMo/pub?gid=395247772&single=true&output=csv',
+  // Per-player, per-week rows. Columns: Week, Owner, Player, NFL Team, Slot, Points
+  PLAYER_WEEKS:     'https://docs.google.com/spreadsheets/d/e/2PACX-1vRJaOaJfFAXKcMZQ80YdJnFgrXYkzoWEjQKv0yHyV__D9sjlbZ9FiaCoGbauKTOgWfvxLD9255uZtMo/pub?gid=2117295871&single=true&output=csv'
+};
+const CACHE_KEY = 'ffhq.csv.v1';
+
+/* ---- formatting ---------------------------------------------------------- */
+const DASH = '\u2014';          // em dash — used for "not applicable"
+const MINUS = '\u2212';         // true minus sign for negative deltas
+const num = v => {
+  if (v == null) return null;
+  const s = String(v).trim();
+  if (!s || s === '--' || s === DASH || s === '-') return null;
+  const n = parseFloat(s.replace(/[^0-9.eE+\-]/g, ''));
+  return isFinite(n) ? n : null;
+};
+const f1 = v => { const n = num(v); return n == null ? DASH : n.toFixed(1); };        // always one decimal
+const pad2 = v => { const n = num(v); return n == null ? DASH : String(Math.round(n)).padStart(2, '0'); };
+const ORD = n => n == null ? DASH : n + (n % 100 >= 11 && n % 100 <= 13 ? 'th' : (['th', 'st', 'nd', 'rd'][n % 10] || 'th'));
+const str = v => { const s = (v == null ? '' : String(v)).trim(); return (!s || s === '--') ? DASH : s; };
+const short = o => String(o || '').split(' (')[0].trim();
+const signed = (v, rank) => rank === 1 ? DASH : (num(v) == null ? DASH : MINUS + Math.abs(num(v)).toFixed(1));
+
+/* ---- CSV ----------------------------------------------------------------- */
+const parseCSVFallback = txt => {
+  const rows = []; let row = [], cell = '', q = false;
+  for (let i = 0; i < txt.length; i++) {
+    const c = txt[i];
+    if (q) { if (c === '"') { if (txt[i + 1] === '"') { cell += '"'; i++; } else q = false; } else cell += c; }
+    else if (c === '"') q = true;
+    else if (c === ',') { row.push(cell); cell = ''; }
+    else if (c === '\n') { row.push(cell); rows.push(row); row = []; cell = ''; }
+    else if (c !== '\r') cell += c;
+  }
+  if (cell !== '' || row.length) { row.push(cell); rows.push(row); }
+  return rows;
+};
+const rowsOf = t => {
+  const txt = (t || '').replace(/^\uFEFF/, '');
+  if (!txt.trim()) return [];
+  const data = window.Papa
+    ? Papa.parse(txt, { skipEmptyLines: false }).data
+    : parseCSVFallback(txt);
+  return data.map(r => (r || []).map(c => (c == null ? '' : String(c))));
+};
+// flat tab: row 1 is the header
+const table = rows => {
+  const head = (rows[0] || []).map(h => h.trim());
+  return rows.slice(1)
+    .filter(r => r.some(c => String(c).trim() !== ''))
+    .map(r => { const o = {}; head.forEach((h, i) => { if (h) o[h] = r[i] == null ? '' : r[i]; }); return o; });
+};
+// multi-section tab helpers
+const findRow = (rows, test, from) => {
+  for (let i = from || 0; i < rows.length; i++) if (test(rows[i] || [])) return i;
+  return -1;
+};
+const blockFrom = (rows, start) => {
+  const out = [];
+  for (let i = start; i < rows.length; i++) {
+    const r = rows[i] || [];
+    if (!String(r[0] || '').trim()) break;
+    out.push(r);
+  }
+  return out;
+};
+const label = r => String((r || [])[0] || '').trim().toUpperCase();
+
+const fetchTab = async key => {
+  const url = CSV_URLS[key];
+  if (!url) return null;
+  const sep = url.indexOf('?') > -1 ? '&' : '?';
+  const res = await fetch(url + sep + 'cb=' + Date.now());
+  if (!res.ok) throw new Error(key + ': HTTP ' + res.status);
+  return res.text();
+};
+
+const POS = ['QB', 'RB', 'WR', 'TE', 'FLEX', 'K', 'D'];
+
+/* ---- model: raw CSV text per tab -> everything the screens read ----------- */
+const buildModel = raw => {
+  const M = { owners: [], weeks: [], weekly: {}, team: {}, standings: [], players: {}, playerWeeks: {} };
+
+  // Weekly Scores — per owner, per week
+  table(rowsOf(raw.WEEKLY_SCORES)).forEach(r => {
+    const o = String(r['Owner'] || '').trim(), w = num(r['Week']);
+    if (!o || !w) return;
+    if (!M.weekly[o]) { M.weekly[o] = {}; M.owners.push(o); }
+    const has = String(r['Has Data'] == null ? '' : r['Has Data']).trim().toLowerCase();
+    const pts = num(r['Weekly Points']);
+    M.weekly[o][w] = {
+      pts,
+      bench: num(r['Bench Pts']),
+      hasData: has === '1' || has === 'true' ? true : has === '0' || has === 'false' ? false : (pts != null && pts !== 0)
+    };
+  });
+
+  // Season Standings
+  M.standings = table(rowsOf(raw.SEASON_STANDINGS)).map(r => ({
+    owner: String(r['Owner'] || '').trim(),
+    total: num(r['Total Points']),
+    rank: num(r['Rank']),
+    diff: num(r['Differential vs #1'])
+  })).filter(r => r.owner);
+  M.standings.sort((a, b) => (b.total || 0) - (a.total || 0) || a.owner.localeCompare(b.owner));
+  if (!M.owners.length) M.owners = M.standings.map(r => r.owner);
+
+  // Team Stats — keyed by owner
+  table(rowsOf(raw.TEAM_STATS)).forEach(r => {
+    const o = String(r['Owner'] || '').trim();
+    if (!o) return;
+    M.team[o] = {
+      weeksPlayed: num(r['Weeks Played']),
+      avg: num(r['Season Avg']),
+      last3: num(r['Last 3-Wk Avg']),
+      trend: str(r['Trend']),
+      pos: { QB: num(r['QB Pts']), RB: num(r['RB Pts']), WR: num(r['WR Pts']), TE: num(r['TE Pts']), FLEX: num(r['FLEX Pts']), K: num(r['K Pts']), D: num(r['D Pts']) },
+      bench: num(r['Bench Pts (Season)']),
+      topSeason: str(r['Top Performer (Season)']), topSeasonPts: num(r['Top Performer (Season) Pts']),
+      topWeek: str(r['Top Performer (This Wk)']), topWeekPts: num(r['Top Performer (This Wk) Pts']),
+      benchBest: str(r['Bench Best Performer']), benchBestPts: num(r['Bench Best Performer Pts']),
+      rank: num(r['Season Rank']), total: num(r['Season Total']),
+      rankLine: str(r['Rank Line'])
+    };
+  });
+
+  // League Stats — multi-section
+  const L = rowsOf(raw.LEAGUE_STATS);
+  M.league = { log: [], totals: {}, winLoss: [], records: {}, pos: {} };
+  let i = findRow(L, r => label(r) === 'WEEK' && /winning/i.test(String(r[1] || '')), 0);
+  if (i > -1) blockFrom(L, i + 1).forEach(r => {
+    const w = num(r[0]); if (!w) return;
+    M.league.log.push({
+      week: w, winner: String(r[1] || '').trim(), winScore: num(r[2]),
+      loser: String(r[3] || '').trim(), loseScore: num(r[4]),
+      avg: num(r[5]), spread: num(r[6]),
+      played: num(r[2]) != null && String(r[1] || '').trim() !== '' && String(r[1] || '').trim() !== '--'
+    });
+  });
+  i = findRow(L, r => label(r) === 'LEAGUE TOTALS', 0);
+  if (i > -1) blockFrom(L, i + 1).forEach(r => { M.league.totals[label(r)] = num(r[1]); });
+  i = findRow(L, r => label(r) === 'OWNER' && /weekly wins/i.test(String(r[1] || '')), 0);
+  if (i > -1) blockFrom(L, i + 1).forEach(r => {
+    const o = String(r[0] || '').trim(); if (!o) return;
+    M.league.winLoss.push({ owner: o, wins: num(r[1]) || 0, lows: num(r[2]) || 0 });
+  });
+  i = findRow(L, r => label(r) === 'RECORD' && /value/i.test(String(r[1] || '')), 0);
+  if (i > -1) blockFrom(L, i + 1).forEach(r => { M.league.records[label(r)] = { value: num(r[1]), team: String(r[2] || '').trim(), week: num(r[3]) }; });
+  i = findRow(L, r => label(r) === 'RECORD' && /gap/i.test(String(r[1] || '')), 0);
+  if (i > -1) blockFrom(L, i + 1).forEach(r => { M.league.records[label(r)] = { value: num(r[1]), week: num(r[2]), high: String(r[3] || '').trim(), low: String(r[4] || '').trim() }; });
+  i = findRow(L, r => label(r) === 'POSITION', 0);
+  if (i > -1) blockFrom(L, i + 1).forEach(r => { const p = label(r); if (p) M.league.pos[p] = num(r[1]); });
+
+  // Dashboard Stats — multi-section
+  const D = rowsOf(raw.DASHBOARD_STATS);
+  M.dash = { leader: null, laggard: null, week: null, high: null, low: null, rankGrid: {}, cumGrid: {}, gridWeeks: [], cumWeeks: [] };
+  const pick = (rows, name) => rows.find(r => label(r) === name);
+  let j = findRow(D, r => /SEASON LEADER/i.test(String(r[0] || '')), 0);
+  if (j > -1) {
+    const blk = D.slice(j, j + 6);
+    const ld = pick(blk, 'LEADER'), lg = pick(blk, 'LAGGARD');
+    if (ld) M.dash.leader = { owner: String(ld[1] || '').trim(), total: num(ld[2]), margin: num(ld[3]) };
+    if (lg) M.dash.laggard = { owner: String(lg[1] || '').trim(), total: num(lg[2]), margin: num(lg[3]) };
+  }
+  j = findRow(D, r => /THIS WEEK'?S HIGH/i.test(String(r[0] || '')), 0);
+  if (j > -1) {
+    const blk = D.slice(j, j + 8);
+    const cw = pick(blk, 'CURRENT WEEK'), hi = pick(blk, 'HIGH'), lo = pick(blk, 'LOW');
+    if (cw) M.dash.week = num(cw[1]);
+    if (hi) M.dash.high = { owner: String(hi[1] || '').trim(), score: num(hi[2]) };
+    if (lo) M.dash.low = { owner: String(lo[1] || '').trim(), score: num(lo[2]) };
+  }
+  const readGrid = marker => {
+    const k = findRow(D, r => marker.test(String(r[0] || '')), 0);
+    if (k < 0) return { grid: {}, weeks: [] };
+    const head = D[k + 1] || [];
+    const cols = [];
+    head.forEach((h, ci) => { const w = num(String(h).replace(/wk/i, '')); if (ci > 0 && w) cols.push({ ci, w }); });
+    const grid = {};
+    blockFrom(D, k + 2).forEach(r => {
+      const o = String(r[0] || '').trim(); if (!o) return;
+      grid[o] = {};
+      cols.forEach(c => { const v = num(r[c.ci]); if (v != null) grid[o][c.w] = v; });
+    });
+    const owners = Object.keys(grid);
+    const weeks = cols.map(c => c.w).filter(w => owners.some(o => grid[o][w] != null));
+    return { grid, weeks };
+  };
+  const rg = readGrid(/WEEKLY RANK GRID/i); M.dash.rankGrid = rg.grid; M.dash.gridWeeks = rg.weeks;
+  const cg = readGrid(/CUMULATIVE POINTS/i); M.dash.cumGrid = cg.grid; M.dash.cumWeeks = cg.weeks;
+
+  // Player Totals — per owner, season points
+  table(rowsOf(raw.PLAYER_TOTALS)).forEach(r => {
+    const o = String(r['Owner'] || '').trim(), p = String(r['Player'] || '').trim();
+    if (!o || !p) return;
+    (M.players[o] = M.players[o] || []).push({ name: p, pts: num(r['Season Points']) });
+  });
+  Object.keys(M.players).forEach(o => M.players[o].sort((a, b) => (b.pts || 0) - (a.pts || 0)));
+
+  // Player Weeks — per owner, per player, per week
+  table(rowsOf(raw.PLAYER_WEEKS)).forEach(r => {
+    const o = String(r['Owner'] || '').trim(), p = String(r['Player'] || '').trim(), w = num(r['Week']);
+    if (!o || !p || !w) return;
+    const bag = M.playerWeeks[o] = M.playerWeeks[o] || {};
+    const rec = bag[p] = bag[p] || { name: p, pos: '', team: '', weeks: {} };
+    const slot = String(r['Slot'] || '').trim();
+    rec.pos = rec.pos || String(r['Pos'] || '').trim() || (slot && slot !== 'BN' ? slot : '');
+    rec.team = rec.team || String(r['NFL Team'] || '').trim();
+    rec.weeks[w] = { pts: num(r['Points']), started: slot !== '' && slot.toUpperCase() !== 'BN' };
+  });
+
+  // played weeks: the league log is authoritative; fall back to Weekly Scores
+  const played = {};
+  M.league.log.forEach(l => { if (l.played) played[l.week] = true; });
+  if (!Object.keys(played).length) {
+    M.owners.forEach(o => Object.keys(M.weekly[o] || {}).forEach(w => { if (M.weekly[o][w].hasData) played[w] = true; }));
+  }
+  M.weeks = Object.keys(played).map(Number).sort((a, b) => a - b);
+  M.currentWeek = M.dash.week != null ? M.dash.week : (M.weeks[M.weeks.length - 1] || null);
+  return M;
+};
+
+// muted earthy identity colours, one per owner: DOT reads on cream and on ink,
+// DEEP is the dark counterpart used behind cream text (team stats header).
+const OWNER_DOT = ['#A8423F','#C2703A','#B39220','#7D8A3C','#3F8A52','#2E8079','#3A72A8','#5A5DA8','#8E4A86','#7A5341'];
+const OWNER_DEEP = ['#6E2A28','#7E4522','#6E5A12','#4D5624','#265433','#1E4F4A','#24486B','#383A6B','#5B2F55','#4C3428'];
+
+class Component extends DCLogic {
+  state = {
+    tab: 'dash', owner: null, isolate: '', chart: 'rank', deltaMode: 'first',
+    from: 'dash', subTab: 'team', selOwner: null, model: null, status: 'loading', cachedAt: null, missing: []
+  };
+
+  componentDidMount() { this.load(); }
+
+  async load() {
+    const keys = Object.keys(CSV_URLS);
+    // PapaParse arrives from the helmet script; give it a moment, else use the fallback parser
+    for (let t = 0; t < 25 && !window.Papa; t++) await new Promise(r => setTimeout(r, 80));
+    const raw = {}; let failed = 0, attempted = 0;
+    await Promise.all(keys.map(async k => {
+      if (!CSV_URLS[k]) return;
+      attempted++;
+      try { raw[k] = await fetchTab(k); }
+      catch (e) { failed++; console.warn('[sheet]', e.message); }
+    }));
+    const missing = keys.filter(k => !CSV_URLS[k]);
+    if (attempted && failed < attempted) {
+      try { localStorage.setItem(CACHE_KEY, JSON.stringify({ at: Date.now(), raw })); } catch (e) {}
+      this.setState({
+        model: buildModel(raw),
+        status: failed || missing.length ? 'partial' : 'live',
+        missing: missing
+      });
+      return;
+    }
+    // every fetch failed — fall back to the last good load
+    let cached = null;
+    try { cached = JSON.parse(localStorage.getItem(CACHE_KEY) || 'null'); } catch (e) {}
+    if (cached && cached.raw) {
+      this.setState({ model: buildModel(cached.raw), status: 'cached', cachedAt: cached.at });
+    } else {
+      this.setState({ status: 'error' });
+    }
+  }
+
+  open(o, from) { this.setState({ owner: o, from: from || this.state.tab }); }
+
+  renderVals() {
+    const s = this.state, M = s.model, h = React.createElement;
+    const owners = M ? M.owners : [];
+    const ci = o => { const k = owners.indexOf(o); return (k < 0 ? 0 : k) % OWNER_DOT.length; };
+    const dotOf = o => OWNER_DOT[ci(o)];
+    const deepOf = o => OWNER_DEEP[ci(o)];
+    const weeks = M ? M.weeks : [];
+    const week = M && M.currentWeek != null ? M.currentWeek : null;
+    const view = this.props.statsView || 'Live';
+    const loading = view === 'Loading skeleton' || (!M && s.status === 'loading');
+    const st = M ? M.standings : [];
+    const byOwner = {}; st.forEach(r => { byOwner[r.owner] = r; });
+    const team = o => (M && M.team[o]) || {};
+
+    // --- dashboard: leader / laggard ---
+    const lead = (M && M.dash.leader) || null;
+    const lag = (M && M.dash.laggard) || null;
+    const second = st[1], penult = st[st.length - 2];
+    const hi = (M && M.dash.high) || null, lo = (M && M.dash.low) || null;
+
+    // --- standings rows ---
+    const rows = st.map((r, i) => {
+      const isL = i === 0, isLast = i === st.length - 1;
+      const above = i === 0 ? null : (st[i - 1].total || 0) - (r.total || 0);
+      return {
+        rankStr: ORD(r.rank),
+        name: short(r.owner), total: f1(r.total), dot: dotOf(r.owner),
+        delta: s.deltaMode === 'first' ? signed(r.diff, r.rank === 1 || i === 0 ? 1 : 2) : signed(above, i === 0 ? 1 : 2),
+        bg: isL ? '#08070C' : 'transparent',
+        fg: isL ? '#FFFCF3' : '#08070C',
+        dim: isL ? 'rgba(255,252,243,.78)' : '#837B6E',
+        nameWeight: isL ? 600 : 500, totalWeight: isL ? 700 : 600,
+        rule: isLast ? '1px solid #08070C' : '1px solid rgba(8,7,12,.16)',
+        shadow: isLast ? 'inset 0 0 0 1px rgba(8,7,12,.16)' : 'none',
+        open: () => this.open(r.owner, 'dash')
+      };
+    });
+
+    // --- dashboard chart: rank grid or cumulative grid, straight from the sheet ---
+    const isRank = s.chart === 'rank';
+    const grid = M ? (isRank ? M.dash.rankGrid : M.dash.cumGrid) : {};
+    const gWeeks = M ? (isRank ? M.dash.gridWeeks : M.dash.cumWeeks) : [];
+    const gOwners = owners.filter(o => grid[o] && gWeeks.some(w => grid[o][w] != null));
+    const iso = s.isolate === '' ? '' : (gOwners.indexOf(s.isolate) > -1 ? s.isolate : gOwners[0] || '');
+    const pickIso = o => this.setState({ isolate: o === iso ? '' : o });
+    const step = gWeeks.length > 1 ? Math.min(82, 410 / (gWeeks.length - 1)) : 0;
+    const X = i => 26 + i * step;
+    let yOf = () => null, axisLabels = [];
+    if (gWeeks.length && gOwners.length) {
+      if (isRank) {
+        yOf = (o, i) => { const v = grid[o][gWeeks[i]]; return v == null ? null : 14 + (v - 1) * 24; };
+        axisLabels = [['1', 17], ['3', 65], ['5', 113], ['7', 161], ['9', 209]].map(a => ({ x: 6, y: a[1], t: a[0] }));
+      } else {
+        const all = [];
+        gOwners.forEach(o => gWeeks.forEach(w => { if (grid[o][w] != null) all.push(grid[o][w]); }));
+        const mn = Math.min.apply(null, all), mx = Math.max.apply(null, all);
+        yOf = (o, i) => { const v = grid[o][gWeeks[i]]; return v == null ? null : 230 - ((v - mn) / Math.max(mx - mn, 1)) * 216; };
+        axisLabels = [14, 68, 122, 176, 230].map(y => ({ x: 2, y: y + 3, t: Math.round(mn + ((230 - y) / 216) * (mx - mn)) }));
+      }
+    }
+    const ptsOf = o => gWeeks.map((w, i) => ({ x: X(i), y: yOf(o, i) })).filter(p => p.y != null);
+    const poly = o => ptsOf(o).map(p => p.x + ',' + p.y.toFixed(1)).join(' ');
+    const lastY = o => { const p = ptsOf(o); return p.length ? p[p.length - 1].y : 120; };
+    const chartLines = gOwners.filter(o => o !== iso).map(o => ({
+      points: poly(o), stroke: iso ? '#C6BEAE' : dotOf(o), w: iso ? 1.25 : 1.75, onClick: () => pickIso(o)
+    })).concat(iso ? [{ points: poly(iso), stroke: deepOf(iso), w: 2.5, onClick: () => pickIso(iso) }] : []);
+    // with one or two weeks of data a polyline is invisible, so dot every series
+    const dots = gWeeks.length < 3
+      ? [].concat.apply([], gOwners.map(o => ptsOf(o).map(p => ({ x: p.x, y: p.y, r: o === iso ? 3.5 : 2.5, fill: iso && o !== iso ? '#C6BEAE' : dotOf(o) }))))
+      : [];
+    const markers = iso ? ptsOf(iso).map(p => ({ x: p.x - 3, y: p.y - 3, fill: deepOf(iso) })) : [];
+    const stack = gOwners.map(o => ({ o, y: lastY(o) })).sort((a, b) => a.y - b.y);
+    const MIN = 12;
+    for (let i = 1; i < stack.length; i++) if (stack[i].y - stack[i - 1].y < MIN) stack[i].y = stack[i - 1].y + MIN;
+    const over = stack.length ? stack[stack.length - 1].y - 236 : 0;
+    if (over > 0) for (let i = stack.length - 1; i >= 0; i--) {
+      stack[i].y -= over;
+      if (i > 0 && stack[i].y - stack[i - 1].y >= MIN) break;
+    }
+    const endLabels = stack.map(x => ({
+      y: (x.y + 3).toFixed(1), t: short(x.o).toUpperCase(),
+      size: x.o === iso ? 11 : 10, weight: x.o === iso ? 700 : 600,
+      fill: x.o === iso ? deepOf(x.o) : (iso ? '#837B6E' : dotOf(x.o)),
+      onClick: () => pickIso(x.o)
+    }));
+    const gridLines = (isRank ? [14, 62, 110, 158, 206] : [14, 68, 122, 176, 230]).map(y => ({ y }));
+    const MONO = { fontFamily: 'Outfit, sans-serif', fontWeight: 600, fontSize: 10, fill: '#837B6E' };
+    const dashChart = h('svg', { width: 520, height: 252, viewBox: '0 0 520 252', style: { display: 'block' } },
+      gridLines.map((g, k) => h('line', { key: 'g' + k, x1: 26, y1: g.y, x2: 436, y2: g.y, stroke: 'rgba(8,7,12,.10)', strokeWidth: 1 })),
+      axisLabels.map((a, k) => h('text', { key: 'x' + k, x: a.x, y: a.y, fontFamily: 'Outfit, sans-serif', fontWeight: 600, fontSize: 10, fill: '#565049' }, a.t)),
+      chartLines.map((l, k) => h('polyline', { key: 'l' + k, points: l.points, fill: 'none', stroke: l.stroke, strokeWidth: l.w, onClick: l.onClick, style: { cursor: 'pointer' } })),
+      dots.map((d, k) => h('circle', { key: 'd' + k, cx: d.x, cy: d.y, r: d.r, fill: d.fill })),
+      markers.map((m, k) => h('rect', { key: 'm' + k, x: m.x, y: m.y, width: 6, height: 6, fill: m.fill })),
+      endLabels.map((e, k) => h('text', { key: 'e' + k, x: 446, y: e.y, onClick: e.onClick, style: { cursor: 'pointer' }, fontFamily: 'Outfit, sans-serif', fontSize: e.size, fontWeight: e.weight, fill: e.fill }, e.t)),
+      gWeeks.map((w, i) => h('text', Object.assign({ key: 'k' + i, x: X(i) - 8, y: 246 }, MONO), 'W' + pad2(w)))
+    );
+
+    // --- stats / team ---
+    const sel = owners.indexOf(s.selOwner) > -1 ? s.selOwner : (st[0] ? st[0].owner : '');
+    const T = team(sel);
+    const pw = (M && M.playerWeeks[sel]) || {};
+    const meta = name => {
+      const p = pw[name];
+      if (!p || (!p.pos && !p.team)) return DASH;
+      return [p.pos, p.team].filter(Boolean).join(' \u00b7 ');
+    };
+    const posVals = T.pos || {};
+    const posSorted = POS.filter(p => posVals[p] != null).sort((a, b) => posVals[b] - posVals[a]);
+    const posMax = posSorted.length ? posVals[posSorted[0]] || 1 : 1;
+    const weeksPlayed = T.weeksPlayed != null ? T.weeksPlayed : 0;
+    const trendOK = weeksPlayed >= 3;   // trend needs three weeks
+
+    // --- stats / league ---
+    const LG = (M && M.league) || { log: [], totals: {}, winLoss: [], records: {}, pos: {} };
+    const playedLog = LG.log.filter(l => l.played);
+    const chronological = playedLog.slice().sort((a, b) => a.week - b.week);
+    const hasTrend = chronological.length >= 2;   // spread records need two played weeks
+    // wins desc, then losses asc, then name — the sheet gives unsorted counts
+    const board = LG.winLoss.slice().sort((a, b) => b.wins - a.wins || a.lows - b.lows || a.owner.localeCompare(b.owner));
+    const boardTop = board.length ? board[0].owner : '';
+    const lgPosSorted = POS.filter(p => LG.pos[p] != null).sort((a, b) => LG.pos[b] - LG.pos[a]);
+    const lgPosMax = lgPosSorted.length ? LG.pos[lgPosSorted[0]] || 1 : 1;
+
+    // league average by week
+    const CW = 345, CH = 132, CX0 = 30, CY0 = 14;
+    const avgs = chronological.map(l => l.avg).filter(v => v != null);
+    const n = avgs.length;
+    const cx = i => CX0 + (n > 1 ? (i * CW) / (n - 1) : CW / 2);
+    const aMin = n ? Math.min.apply(null, avgs) : 0, aMax = n ? Math.max.apply(null, avgs) : 1;
+    const span = Math.max(aMax - aMin, 1);
+    const cy = v => CY0 + (1 - (v - aMin) / span) * (CH - 34);
+    const chartPoints = avgs.map((v, i) => cx(i).toFixed(1) + ',' + cy(v).toFixed(1)).join(' ');
+    const hiIdx = avgs.indexOf(aMax), loIdx = avgs.indexOf(aMin);
+    const callouts = [hiIdx, loIdx].filter((v, k, arr) => v >= 0 && arr.indexOf(v) === k).map(i => ({
+      x: cx(i) - 3.5, y: cy(avgs[i]) - 3.5,
+      tx: cx(i) + (i === n - 1 ? -8 : 8),
+      ty: cy(avgs[i]) + (i === hiIdx ? -9 : 17),
+      anchor: i === n - 1 ? 'end' : 'start', t: f1(avgs[i])
+    }));
+    const baseY = CY0 + CH - 34 + 8;
+    const leagueChart = h('svg', { viewBox: '0 0 393 152', width: '100%', style: { display: 'block', marginTop: 10 } },
+      h('line', { x1: 30, y1: baseY, x2: 375, y2: baseY, stroke: '#08070C', strokeWidth: 1 }),
+      [aMax, aMin].map((v, k) => h('text', Object.assign({ key: 'a' + k, x: 0, y: cy(v) + 3.5 }, MONO), Math.round(v))),
+      h('polyline', { points: chartPoints, fill: 'none', stroke: '#08070C', strokeWidth: 3 }),
+      callouts.map((c, k) => h('g', { key: 'c' + k },
+        h('rect', { x: c.x, y: c.y, width: 7, height: 7, fill: '#08070C' }),
+        h('text', { x: c.tx, y: c.ty, textAnchor: c.anchor, fontFamily: 'Outfit, sans-serif', fontWeight: 700, fontSize: 11, fill: '#08070C' }, c.t)
+      )),
+      chronological.filter((l, i) => n <= 8 || i % 2 === 0 || i === n - 1)
+        .map((l, i) => h('text', Object.assign({ key: 'w' + l.week, x: cx(chronological.indexOf(l)), y: 146, textAnchor: 'middle' }, MONO), 'W' + pad2(l.week)))
+    );
+
+    const rec = key => LG.records[key] || {};
+    const hiWk = rec('HIGHEST SINGLE WEEK'), loWk = rec('LOWEST SINGLE WEEK');
+    const close = rec('CLOSEST WEEK'), wide = rec('WIDEST SPREAD WEEK');
+    const spreadDetail = r => hasTrend && r.week != null
+      ? 'Wk ' + pad2(r.week) + ' \u00b7 ' + short(r.high) + ' over ' + short(r.low)
+      : 'Not enough data yet';
+
+    // --- team detail ---
+    const d = s.owner, DT = d ? team(d) : {};
+    const dStand = d ? byOwner[d] : null;
+    const dWeeks = d && M ? weeks.slice() : [];
+    const logByWeek = {}; LG.log.forEach(l => { logByWeek[l.week] = l; });
+    const dpw = d && M ? (M.playerWeeks[d] || {}) : {};
+    const dpwNames = Object.keys(dpw);
+    const rosterRows = dpwNames.map(name => {
+      const p = dpw[name];
+      let tot = 0, any = false;
+      const cells = dWeeks.map(w => {
+        const c = p.weeks[w];
+        if (!c || c.pts == null) return { v: '\u00b7', color: '#C4BBA9', weight: 400 };
+        any = true; tot += c.pts;
+        return { v: c.pts.toFixed(1), color: c.started ? '#08070C' : '#6B6459', weight: c.started ? 600 : 400 };
+      });
+      return {
+        name: name, meta: meta(name) === DASH ? DASH : meta(name),
+        cells, total: any ? tot.toFixed(1) : DASH, sortKey: tot, nameColor: '#08070C'
+      };
+    }).sort((a, b) => b.sortKey - a.sortKey);
+    // no Player Weeks tab connected yet — fall back to season totals per player
+    const seasonPlayers = d && M ? (M.players[d] || []) : [];
+    const fallbackRows = seasonPlayers.map(p => ({
+      name: p.name, meta: meta(p.name),
+      cells: dWeeks.map(() => ({ v: DASH, color: '#C4BBA9', weight: 400 })),
+      total: f1(p.pts), sortKey: p.pts || 0, nameColor: '#08070C'
+    }));
+    const finalRoster = rosterRows.length ? rosterRows : fallbackRows;
+    const colCount = Math.max(dWeeks.length, 1);
+
+    const statusLabel = s.status === 'loading' ? 'Syncing\u2026'
+      : s.status === 'cached' ? 'Cached \u00b7 ' + (s.cachedAt ? new Date(s.cachedAt).toLocaleString([], { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }) : 'last good load')
+      : s.status === 'partial' ? 'Awaiting CSV URLs \u00b7 ' + ((s.missing || []).join(', ').toLowerCase().replace(/_/g, ' ') || 'some tabs unavailable')
+      : s.status === 'error' ? 'Sheet unreachable \u00b7 no cached data' : '';
+
+    return {
+      leagueLine: (this.props.leagueName || "Grant's Rad League") + ' \u00b7 ' + (this.props.leagueId || '749557'),
+      isDash: s.tab === 'dash' && !d, isStats: s.tab === 'stats' && !d, isDetail: !!d,
+      weekPad: pad2(week), teamCount: owners.length || DASH,
+      feedShow: s.status !== 'live', feedLabel: statusLabel,
+
+      leaderName: lead ? short(lead.owner) : DASH, leaderTotal: lead ? f1(lead.total) : DASH,
+      leaderMargin: lead && lead.margin != null && second ? '+' + f1(lead.margin) + ' over ' + short(second.owner) : DASH,
+      laggardName: lag ? short(lag.owner) : DASH, laggardTotal: lag ? f1(lag.total) : DASH,
+      laggardMargin: lag && lag.margin != null && penult ? MINUS + f1(lag.margin) + ' to ' + short(penult.owner) : DASH,
+      openLeader: () => lead && this.open(lead.owner, 'dash'),
+      openLaggard: () => lag && this.open(lag.owner, 'dash'),
+
+      highName: hi ? short(hi.owner) : DASH, highScore: hi ? f1(hi.score) : DASH,
+      lowName: lo ? short(lo.owner) : DASH, lowScore: lo ? f1(lo.score) : DASH,
+
+      standings: rows,
+      deltaLabel: s.deltaMode === 'first' ? 'Total \u00b7 \u0394 #1' : 'Total \u00b7 \u0394 above',
+      toggleDelta: () => this.setState({ deltaMode: s.deltaMode === 'first' ? 'above' : 'first' }),
+
+      chartTitle: isRank ? 'Weekly position' : 'Cumulative points',
+      chartToggleLabel: isRank ? 'Show points' : 'Show rank',
+      toggleChart: () => this.setState({ chart: isRank ? 'points' : 'rank' }),
+      isolateHint: gOwners.length
+        ? (iso ? short(iso).toUpperCase() + ' isolated \u00b7 tap again to show all' : 'All teams \u00b7 tap a line or label to isolate')
+        : 'No weekly grid data yet',
+      dashChart,
+
+      statsWeekPad: pad2(week),
+      showTeamSub: s.subTab === 'team', showLeagueSub: s.subTab === 'league',
+      goTeamSub: () => this.setState({ subTab: 'team' }),
+      goLeagueSub: () => this.setState({ subTab: 'league' }),
+      teamSegBg: s.subTab === 'team' ? '#08070C' : '#FFFCF3',
+      teamSegFg: s.subTab === 'team' ? '#FFFCF3' : '#08070C',
+      leagueSegBg: s.subTab === 'league' ? '#08070C' : '#FFFCF3',
+      leagueSegFg: s.subTab === 'league' ? '#FFFCF3' : '#08070C',
+
+      loading, ready: !loading,
+      skeletonBars: [78, 66, 58, 47, 38, 26, 18].map(p => ({ pct: p + '%' })),
+      skeletonRows: [62, 48, 70, 55, 44, 66].map(p => ({ pct: p + '%' })),
+
+      ownerChips: owners.map(o => ({
+        name: short(o), pick: () => this.setState({ selOwner: o }), dot: dotOf(o),
+        bg: o === sel ? deepOf(o) : '#FFFCF3',
+        fg: o === sel ? '#FFFCF3' : '#08070C'
+      })),
+      selEyebrow: sel ? String(sel).toUpperCase() : DASH,
+      selHeaderBg: sel ? deepOf(sel) : '#08070C',
+      detailDot: d ? dotOf(d) : 'transparent',
+      selSeasonTotal: f1(T.total != null ? T.total : (byOwner[sel] || {}).total),
+      selRankLine: T.rankLine || DASH,
+      topSeasonName: T.topSeason || DASH, topSeasonPts: f1(T.topSeasonPts), topSeasonSub: T.topSeason ? meta(T.topSeason) : DASH,
+      topWeekName: T.topWeek || DASH, topWeekPts: f1(T.topWeekPts), topWeekSub: T.topWeek && T.topWeek !== DASH ? meta(T.topWeek) : DASH,
+      topWeekLabel: 'Week ' + pad2(week),
+      benchTotal: f1(T.bench),
+      benchTopLine: T.benchBest && T.benchBest !== DASH
+        ? 'Biggest miss: ' + T.benchBest + ' \u2014 ' + f1(T.benchBestPts) + ' pts'
+        : DASH,
+      posRows: posSorted.map(p => ({
+        label: p, val: f1(posVals[p]),
+        pct: Math.max(2, (posVals[p] / posMax) * 100).toFixed(1) + '%'
+      })),
+      last3: trendOK ? f1(T.last3) : DASH,
+      trendGlyph: !trendOK || T.trend === DASH ? DASH : T.trend === 'Hot' ? '\u25B2' : T.trend === 'Cold' ? '\u25BC' : '',
+      trendNote: !trendOK ? 'Needs three weeks of data'
+        : T.trend === 'Hot' ? 'Running hot' : T.trend === 'Cold' ? 'Running cold' : T.trend === 'Even' ? 'Flat vs season' : DASH,
+      seasonAvgSel: f1(T.avg),
+      seasonAvgNote: weeksPlayed ? weeksPlayed + (weeksPlayed === 1 ? ' week played' : ' weeks played') : DASH,
+
+      lgTotal: f1(LG.totals['LEAGUE TOTAL POINTS']), lgPerTeam: f1(LG.totals['PER-TEAM AVERAGE']),
+      lgBench: f1(LG.totals['LEAGUE BENCH POINTS']), lgBenchPerTeam: f1(LG.totals['BENCH PER TEAM']),
+      hasTrend: n >= 2, noTrend: n < 2, leagueChart,
+      leaderboard: board.map(b => ({
+        name: short(b.owner), wins: String(b.wins), lows: String(b.lows), dot: dotOf(b.owner),
+        bg: b.owner === boardTop ? '#08070C' : 'transparent',
+        fg: b.owner === boardTop ? '#FFFCF3' : '#08070C',
+        dim: b.owner === boardTop ? 'rgba(255,252,243,.78)' : '#837B6E',
+        weight: b.owner === boardTop ? 700 : 500,
+        open: () => this.open(b.owner, 'stats')
+      })),
+      records: [
+        { label: 'Highest single week', stat: f1(hiWk.value), detail: hiWk.team ? short(hiWk.team) + ' \u00b7 week ' + pad2(hiWk.week) : DASH },
+        { label: 'Lowest single week', stat: f1(loWk.value), detail: loWk.team ? short(loWk.team) + ' \u00b7 week ' + pad2(loWk.week) : DASH },
+        { label: 'Closest week', stat: hasTrend ? f1(close.value) : DASH, detail: spreadDetail(close) },
+        { label: 'Widest spread week', stat: hasTrend ? f1(wide.value) : DASH, detail: spreadDetail(wide) }
+      ],
+      lgPosRows: lgPosSorted.map(p => ({
+        label: p, val: f1(LG.pos[p]),
+        pct: Math.max(2, (LG.pos[p] / lgPosMax) * 100).toFixed(1) + '%'
+      })),
+
+      winnerRange: !weeks.length ? DASH
+        : weeks.length === 1 ? 'Wk ' + pad2(weeks[0])
+        : 'Wk ' + pad2(weeks[0]) + '\u2013' + pad2(weeks[weeks.length - 1]),
+      weeklyWinners: playedLog.slice().sort((a, b) => b.week - a.week).map(l => ({
+        wk: pad2(l.week), name: l.winner, score: f1(l.winScore), dot: dotOf(l.winner),
+        open: () => this.open(l.winner, 'stats')
+      })),
+
+      backLabel: s.from === 'stats' ? 'Stats' : 'Dashboard',
+      closeDetail: () => this.setState({ owner: null, tab: s.from }),
+      detailName: d ? short(d) : '', detailSub: d ? String(d) : '',
+      detailRank: d ? ORD(dStand ? dStand.rank : DT.rank) : '',
+      detailTotal: d ? f1(dStand ? dStand.total : DT.total) : '',
+      detailAvg: d ? f1(DT.avg) : '',
+      detailTrend: d ? ((DT.weeksPlayed || 0) >= 3 ? (DT.trend || DASH) : DASH) : '',
+      detailWeeks: d ? dWeeks.slice().reverse().map(w => {
+        const cell = ((M.weekly[d] || {})[w]) || {};
+        const rk = (M.dash.rankGrid[d] || {})[w];
+        const l = logByWeek[w] || {};
+        return {
+          wk: 'WK ' + pad2(w), pts: f1(cell.pts), rank: rk == null ? DASH : String(rk),
+          note: l.winner === d ? 'Week high' : l.loser === d ? 'Week low' : rk != null && rk <= 3 ? 'Top three' : DASH,
+          noteColor: l.winner === d || l.loser === d ? '#08070C' : '#837B6E'
+        };
+      }) : [],
+
+      rosterRows: finalRoster,
+      rosterCols: '148px repeat(' + colCount + ',46px) 62px',
+      rosterMinW: (148 + 46 * colCount + 62) + 'px',
+      rosterCount: d ? String(finalRoster.length) : '',
+      rosterNote: rosterRows.length
+        ? 'Started weeks in ink \u00b7 bench dimmed \u00b7 dot = not on roster'
+        : seasonPlayers.length
+          ? 'Season totals only \u00b7 connect the Player Weeks tab for week-by-week'
+          : 'Player-level data not connected yet',
+      weekCols: dWeeks.length ? dWeeks.map(w => ({ t: 'W' + pad2(w) })) : [{ t: DASH }],
+
+      goDash: () => this.setState({ tab: 'dash', owner: null }),
+      goStats: () => this.setState({ tab: 'stats', owner: null }),
+      dashTabBg: (s.tab === 'dash' && !d) || (d && s.from === 'dash') ? '#08070C' : 'transparent',
+      dashTabFg: (s.tab === 'dash' && !d) || (d && s.from === 'dash') ? '#FFFCF3' : '#837B6E',
+      statsTabBg: (s.tab === 'stats' && !d) || (d && s.from === 'stats') ? '#08070C' : 'transparent',
+      statsTabFg: (s.tab === 'stats' && !d) || (d && s.from === 'stats') ? '#FFFCF3' : '#837B6E'
+    };
+  }
+}
+</script>
+</body>
+</html>
