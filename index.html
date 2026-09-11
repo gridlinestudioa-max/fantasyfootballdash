@@ -536,8 +536,9 @@ const rowsOf = t => {
   return data.map(r => (r || []).map(c => (c == null ? '' : String(c))));
 };
 // flat tab: row 1 is the header
-const table = rows => {
+const table = (rows, firstHeader) => {
   const head = (rows[0] || []).map(h => h.trim());
+  if (firstHeader && !head[0]) head[0] = firstHeader;   // some tabs ship a blank A1
   return rows.slice(1)
     .filter(r => r.some(c => String(c).trim() !== ''))
     .map(r => { const o = {}; head.forEach((h, i) => { if (h) o[h] = r[i] == null ? '' : r[i]; }); return o; });
@@ -588,8 +589,14 @@ const buildModel = raw => {
   });
 
   // Season Standings
-  M.standings = table(rowsOf(raw.SEASON_STANDINGS)).map(r => ({
-    owner: String(r['Owner'] || '').trim(),
+  // Standings lists short names ("Al"); every other tab uses the full
+  // "Al (Alex's Amazing Team)". Map back to the canonical name so lookups hit.
+  const canon = {};
+  M.owners.forEach(o => { canon[short(o).toLowerCase()] = o; });
+  const canonical = n => canon[short(n).toLowerCase()] || n;
+
+  M.standings = table(rowsOf(raw.SEASON_STANDINGS), 'Owner').map(r => ({
+    owner: canonical(String(r['Owner'] || '').trim()),
     total: num(r['Total Points']),
     rank: num(r['Rank']),
     diff: num(r['Differential vs #1'])
