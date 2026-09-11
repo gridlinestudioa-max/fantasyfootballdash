@@ -1,0 +1,10 @@
+/* Gridline Studio — Corner radii. Echoes the softly-rounded corners of the logo mark. */
+:root {
+  --radius-xs:   3px;
+  --radius-sm:   6px;
+  --radius-md:   10px;
+  --radius-lg:   16px;
+  --radius-xl:   24px;
+  --radius-2xl:  32px;
+  --radius-full: 999px;
+}
