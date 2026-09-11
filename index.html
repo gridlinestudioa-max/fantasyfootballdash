@@ -28,6 +28,11 @@ a{color:#08070C}a:hover{color:#565049}
 <div style="min-height:100vh;background:#ECE5D5;display:flex;justify-content:center;align-items:flex-start;padding:28px 16px 40px">
 <div style="width:393px;max-width:100%;height:852px;background:#FFFCF3;border:1px solid #08070C;display:flex;flex-direction:column;overflow:hidden;position:relative">
 
+<div style="display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid #08070C;flex:none">
+  <div onClick="{{ goDash }}" style="padding:13px 0;text-align:center;cursor:pointer;background:{{ dashTabBg }};color:{{ dashTabFg }};font-family:'Outfit',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:11.5px">Dashboard</div>
+  <div onClick="{{ goStats }}" style="padding:13px 0;text-align:center;cursor:pointer;border-left:1px solid #08070C;background:{{ statsTabBg }};color:{{ statsTabFg }};font-family:'Outfit',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:11.5px">Stats</div>
+</div>
+
 <sc-if value="{{ isDash }}" hint-placeholder-val="{{ true }}">
 <div style="display:flex;flex-direction:column;flex:1;min-height:0">
   <div style="padding:14px 16px 12px;border-bottom:1px solid #08070C;display:flex;justify-content:space-between;align-items:flex-end;flex:none">
@@ -461,11 +466,6 @@ a{color:#08070C}a:hover{color:#565049}
   </div>
 </div>
 </sc-if>
-
-<div style="display:grid;grid-template-columns:1fr 1fr;border-top:1px solid #08070C;flex:none">
-  <div onClick="{{ goDash }}" style="padding:13px 0;text-align:center;cursor:pointer;background:{{ dashTabBg }};color:{{ dashTabFg }};font-family:'Outfit',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:11.5px">Dashboard</div>
-  <div onClick="{{ goStats }}" style="padding:13px 0;text-align:center;cursor:pointer;border-left:1px solid #08070C;background:{{ statsTabBg }};color:{{ statsTabFg }};font-family:'Outfit',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:11.5px">Stats</div>
-</div>
 
 </div>
 </div>
